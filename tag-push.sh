@@ -2,5 +2,5 @@
 
 if [[ "${TRAVIS_BRANCH}" == "master" ]]; then
   docker login -u="${DOCKER_USERNAME}" -p="${DOCKER_PASSWORD}"
-  docker push outofcoffee/java-awscli
+  docker push fenio/java-aws
 fi

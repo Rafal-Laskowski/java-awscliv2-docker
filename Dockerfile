@@ -1,9 +1,19 @@
-FROM openjdk:8u171-jdk
+FROM openjdk:17-jdk-slim
 
-MAINTAINER Pete Cornish <outofcoffee@gmail.com>
+MAINTAINER Rafał Laskowski <rafal.laskowski@outlook.com>
 
-RUN apt-get update && apt-get install -y python-pip
+# Install required dependencies and AWS CLI v2
+RUN apt-get update \
+    && apt-get install -y unzip curl \
+    && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+    && unzip awscliv2.zip \
+    && ./aws/install \
+    && rm -rf awscliv2.zip aws \
+    && apt-get remove -y unzip curl \
+    && apt-get autoremove -y \
+    && apt-get clean
 
-RUN pip install awscli --ignore-installed six
-
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# Install JQ \
+RUN apt-get update \
+    && apt-get install -y jq \
+    && apt-get clean
